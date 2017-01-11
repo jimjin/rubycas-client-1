@@ -222,8 +222,8 @@ module CASClient
           # <tt>request.referer</tt>.
           def logout(controller, service = {})
             destination = service[:destination]
-            follow = session[:follow]
-            service = session[:service]
+            follow = service[:follow]
+            service = service[:service]
             destination = controller.request.referer unless destination && follow && service
             st = controller.session[:cas_last_valid_ticket]
             @@client.ticket_store.cleanup_service_session_lookup(st) if st
