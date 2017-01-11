@@ -224,7 +224,7 @@ module CASClient
             destination = service[:destination]
             follow = service[:follow]
             service = service[:service]
-            destination = controller.request.referer unless destination && follow && service
+            destination = controller.request.referer unless destination || follow || service
             st = controller.session[:cas_last_valid_ticket]
             @@client.ticket_store.cleanup_service_session_lookup(st) if st
             controller.send(:reset_session)
