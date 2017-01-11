@@ -220,12 +220,15 @@ module CASClient
           # ways. 
           # If given, the optional <tt>service</tt> URL overrides 
           # <tt>request.referer</tt>.
-          def logout(controller, service = nil)
-            referer = service || controller.request.referer
+          def logout(controller, service = {})
+            destination = service[:destination]
+            follow = session[:follow]
+            service = session[:service]
+            destination = controller.request.referer unless destination && follow && service
             st = controller.session[:cas_last_valid_ticket]
             @@client.ticket_store.cleanup_service_session_lookup(st) if st
             controller.send(:reset_session)
-            controller.send(:redirect_to, client.logout_url(referer))
+            controller.send(:redirect_to, client.logout_url(destination, follow, service))
           end
           
           def unauthorized!(controller, vr = nil)

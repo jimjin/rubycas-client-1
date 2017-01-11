@@ -25,7 +25,7 @@ class AdvancedExampleController < ApplicationController
   end
 
   def logout
-    CASClient::Frameworks::Rails::Filter.logout(self)
+    CASClient::Frameworks::Rails::Filter.logout(self, service: root_url)
   end
 
 end
